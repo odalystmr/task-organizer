@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface ITaskListService {
     public List<TaskList> findAll();
 
-    public Optional<TaskList> findById(Long id);
+    public TaskList findById(Long id);
 
-    public TaskList create(TaskList taskList);
+    public TaskList create(Long id, String title, String position);
 
-    public TaskList update(TaskList taskList);
+    public TaskList update(Long id, String title, String position);
 
     public void deleteById(Long id);
 

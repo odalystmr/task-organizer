@@ -9,11 +9,11 @@ public interface ITaskService {
 
     public List<Task> findAll();
 
-    public Optional<Task> findById(Long id);
+    public Task findById(Long id);
 
-    public Task create(Task task);
+    public Task create(Long id, String title, String description, String position, boolean complete );
 
-    public Task update(Task task);
+    public Task update(Long id, String title, String description, String position, boolean complete );
 
     public void deleteById(Long id);
 

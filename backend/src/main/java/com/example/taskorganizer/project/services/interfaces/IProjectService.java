@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface IProjectService {
     public List<Project> findAll();
 
-    public Optional<Project> findById(Long id);
+    public Project findById(Long id);
 
-    public Project create(Project project);
+    public Project create(Long id, String title, String description);
 
-    public Project update(Project project);
+    public Project update(Long id, String title, String description);
 
     public void deleteById(Long id);
 

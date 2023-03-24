@@ -9,11 +9,11 @@ public interface IUserService {
 
 	public List<User> findAll();
 
-	public Optional<User> findById(Long id);
+	public User findById(Long id);
 
-	public User create(User user);
+	public User create(Long id, String full_name, String username, String email, String password);
 
-	public User update(User user);
+	public User update(Long id, String full_name, String username, String email, String password);
 
 	public void delete(Long id);
 
