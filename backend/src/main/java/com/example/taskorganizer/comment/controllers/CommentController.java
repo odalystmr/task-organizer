@@ -1,33 +1,55 @@
 package com.example.taskorganizer.comment.controllers;
 
+import com.example.taskorganizer.comment.models.Comment;
+import com.example.taskorganizer.comment.requests.CommentsPostRequest;
+import com.example.taskorganizer.comment.requests.CommentsPutRequest;
+import com.example.taskorganizer.comment.services.interfaces.ICommentService;
+import com.example.taskorganizer.project.models.Project;
+import com.example.taskorganizer.project.requests.ProjectsPostRequest;
+import com.example.taskorganizer.project.requests.ProjectsPutRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
+    @Autowired
+    private ICommentService service;
 
     @GetMapping("")
-    public String findAll() {
-        return "ver todos";
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable("id") Long id) {
-        return "ver solo " + id;
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping("")
-    public String add() {
-        return "añadir nuevo";
+    public ResponseEntity<?> add(@RequestBody CommentsPostRequest requestBody) {
+        Comment comment = service.create(
+                requestBody.getId(),
+                requestBody.getComment(),
+                requestBody.getDate());
+
+        return ResponseEntity.ok(comment);
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") Long id) {
-        return "actualizar uno existente " + id;
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CommentsPutRequest requestBody) {
+        Comment comment = service.update(
+                id,
+                requestBody.getComment(),
+                requestBody.getDate());
+
+        return ResponseEntity.ok(comment);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable("id") Long id) {
-        return "borrar solo " + id;
+    public void deleteById(@PathVariable("id") Long id) {
+        service.deleteById(id);
     }
+
 }

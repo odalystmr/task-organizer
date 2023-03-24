@@ -1,32 +1,53 @@
 package com.example.taskorganizer.project.controllers;
 
+import com.example.taskorganizer.project.models.Project;
+import com.example.taskorganizer.project.requests.ProjectsPostRequest;
+import com.example.taskorganizer.project.requests.ProjectsPutRequest;
+import com.example.taskorganizer.project.services.interfaces.IProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
+
+    @Autowired
+    private IProjectService service;
+
     @GetMapping("")
-    public String findAll() {
-        return "ver todos";
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable("id") Long id) {
-        return "ver solo " + id;
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping("")
-    public String add() {
-        return "añadir nuevo";
+    public ResponseEntity<?> add(@RequestBody ProjectsPostRequest requestBody) {
+        Project project = service.create(
+                requestBody.getId(),
+                requestBody.getTitle(),
+                requestBody.getDescription());
+
+        return ResponseEntity.ok(project);
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") Long id) {
-        return "actualizar uno existente " + id;
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ProjectsPutRequest requestBody) {
+        Project project = service.update(
+                id,
+                requestBody.getTitle(),
+                requestBody.getDescription());
+
+        return ResponseEntity.ok(project);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable("id") Long id) {
-        return "borrar solo " + id;
+    public void deleteById(@PathVariable("id") Long id) {
+        service.deleteById(id);
     }
+
 }
