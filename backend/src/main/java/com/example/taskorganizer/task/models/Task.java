@@ -1,7 +1,6 @@
 package com.example.taskorganizer.task.models;
 
 import com.example.taskorganizer.comment.models.Comment;
-import com.example.taskorganizer.project.models.Project;
 import com.example.taskorganizer.taskList.models.TaskList;
 import com.example.taskorganizer.user.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

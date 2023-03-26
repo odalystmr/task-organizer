@@ -3,7 +3,6 @@ package com.example.taskorganizer.task.services.interfaces;
 import com.example.taskorganizer.task.models.Task;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ITaskService {
 

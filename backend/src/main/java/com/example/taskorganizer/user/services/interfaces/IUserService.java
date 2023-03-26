@@ -3,7 +3,6 @@ package com.example.taskorganizer.user.services.interfaces;
 import com.example.taskorganizer.user.models.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IUserService {
 
