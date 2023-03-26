@@ -45,4 +45,7 @@ public class UserService implements IUserService {
         repository.deleteById(id);
     }
 
+    public User getUserByUsername(String username){
+        return repository.findByUsername(username);
+    }
 }

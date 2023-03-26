@@ -57,12 +57,12 @@ public class ProjectService implements IProjectService {
 //    projectRepository.deleteAll();
     }
 
-    public void addParticipants(Long projectId, List<Long> newParticipants) {
+    public void addParticipants(Long projectId, List<String> newParticipantUsernames) {
         Project project = findById(projectId);
         List<User> projectParticipants = project.getParticipants();
 
-        for (Long participant : newParticipants) {
-            User user = userService.findById(participant);
+        for (String username : newParticipantUsernames) {
+            User user = userService.getUserByUsername(username);
             projectParticipants.add(user);
 
         }

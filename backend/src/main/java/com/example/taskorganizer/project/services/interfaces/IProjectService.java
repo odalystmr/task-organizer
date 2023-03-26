@@ -17,5 +17,5 @@ public interface IProjectService {
 
     public void deleteAll(Long idOwner);
 
-    void addParticipants(Long id, List<Long> participantIds);
+    void addParticipants(Long id, List<String> newParticipantUsernames);
 }

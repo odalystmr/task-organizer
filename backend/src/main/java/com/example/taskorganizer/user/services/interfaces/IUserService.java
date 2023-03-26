@@ -18,4 +18,5 @@ public interface IUserService {
 
 	public User getUserLoggedIn();
 
+	User getUserByUsername(String participant);
 }

@@ -3,9 +3,9 @@ package com.example.taskorganizer.project.requests;
 import java.util.List;
 
 public class AddProjectParticipantsPostRequest {
-    private List<Long> participantIds;
+    private List<String> participantUsernames;
 
-    public List<Long> getParticipantIds() {
-        return participantIds;
+    public List<String> getParticipantUsernames() {
+        return participantUsernames;
     }
 }

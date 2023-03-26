@@ -54,6 +54,6 @@ public class ProjectController {
     public void addParticipants(@PathVariable("id") Long id, @RequestBody AddProjectParticipantsPostRequest requestBody){
         service.addParticipants(
                 id,
-                requestBody.getParticipantIds());
+                requestBody.getParticipantUsernames());
     }
 }
