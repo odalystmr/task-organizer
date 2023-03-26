@@ -25,9 +25,8 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project create(Long id, String title, String description) {
-        Project project = new Project(id, title, description);
-
+    public Project create(String title, String description) {
+        Project project = new Project(title, description);
         return repository.save(project);
     }
 

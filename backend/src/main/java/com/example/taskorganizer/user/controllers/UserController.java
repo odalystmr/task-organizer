@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody UsersPostRequest requestBody) {
         User user = service.create(
-                requestBody.getId(),
                 requestBody.getFullName(),
                 requestBody.getUsername(),
                 requestBody.getEmail(),

@@ -26,7 +26,6 @@ public class TaskListController {
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody TaskListsPostRequest requestBody) {
         TaskList taskList = service.create(
-                requestBody.getId(),
                 requestBody.getTitle(),
                 requestBody.getPosition());
 

@@ -28,7 +28,6 @@ public class ProjectController {
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody ProjectsPostRequest requestBody) {
         Project project = service.create(
-                requestBody.getId(),
                 requestBody.getTitle(),
                 requestBody.getDescription());
 

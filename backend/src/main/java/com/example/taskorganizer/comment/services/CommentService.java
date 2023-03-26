@@ -25,8 +25,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public Comment create(Long id, String text, Date date) {
-        Comment comment = new Comment(id, text, date);
+    public Comment create(String text, Date date) {
+        Comment comment = new Comment(text, date);
         return repository.save(comment);
     }
 

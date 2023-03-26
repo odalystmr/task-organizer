@@ -34,8 +34,7 @@ public class TaskList {
     public TaskList() {
     }
 
-    public TaskList(Long id, String title, String position) {
-        this.id = id;
+    public TaskList(String title, String position) {
         this.title = title;
         this.position = position;
     }

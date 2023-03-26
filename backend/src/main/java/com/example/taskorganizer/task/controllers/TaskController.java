@@ -27,7 +27,6 @@ public class TaskController {
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody TasksPostRequest requestBody) {
         Task task = service.create(
-                requestBody.getId(),
                 requestBody.getTitle(),
                 requestBody.getDescription(),
                 requestBody.getPosition(),

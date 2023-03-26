@@ -10,7 +10,7 @@ public interface ITaskListService {
 
     public TaskList findById(Long id);
 
-    public TaskList create(Long id, String title, String position);
+    public TaskList create(String title, String position);
 
     public TaskList update(Long id, String title, String position);
 

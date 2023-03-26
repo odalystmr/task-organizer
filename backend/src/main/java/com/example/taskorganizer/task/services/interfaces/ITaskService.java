@@ -11,7 +11,7 @@ public interface ITaskService {
 
     public Task findById(Long id);
 
-    public Task create(Long id, String title, String description, String position, boolean complete );
+    public Task create(String title, String description, String position, boolean complete, Long assignee);
 
     public Task update(Long id, String title, String description, String position, boolean complete );
 

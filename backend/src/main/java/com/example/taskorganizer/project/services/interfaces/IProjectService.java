@@ -10,7 +10,7 @@ public interface IProjectService {
 
     public Project findById(Long id);
 
-    public Project create(Long id, String title, String description);
+    public Project create(String title, String description);
 
     public Project update(Long id, String title, String description);
 

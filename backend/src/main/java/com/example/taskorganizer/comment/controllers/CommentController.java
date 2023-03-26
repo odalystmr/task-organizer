@@ -30,7 +30,6 @@ public class CommentController {
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody CommentsPostRequest requestBody) {
         Comment comment = service.create(
-                requestBody.getId(),
                 requestBody.getComment(),
                 requestBody.getDate());
 

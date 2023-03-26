@@ -40,15 +40,13 @@ public class Project {
     public Project() {
     }
 
-    public Project(Long id, String title, String description, User owner) {
-        this.id = id;
+    public Project(String title, String description, User owner) {
         this.title = title;
         this.description = description;
         this.owner = owner;
     }
 
-    public Project(Long id, String title, String description) {
-        this.id = id;
+    public Project(String title, String description) {
         this.title = title;
         this.description = description;
     }

@@ -24,8 +24,8 @@ public class UserService implements IUserService {
         return repository.findById(id).orElseThrow();
     }
 
-    public User create(Long id, String fullName, String username, String email, String password) {
-        User user = new User(id, fullName, username, email, password, null);
+    public User create(String fullName, String username, String email, String password) {
+        User user = new User(fullName, username, email, password, null);
 
         return repository.save(user);
     }

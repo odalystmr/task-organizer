@@ -11,7 +11,7 @@ public interface IUserService {
 
 	public User findById(Long id);
 
-	public User create(Long id, String full_name, String username, String email, String password);
+	public User create(String full_name, String username, String email, String password);
 
 	public User update(Long id, String full_name, String username, String email, String password);
 

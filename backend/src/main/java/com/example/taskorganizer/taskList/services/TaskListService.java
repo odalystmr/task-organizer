@@ -26,8 +26,8 @@ public class TaskListService implements ITaskListService {
     }
 
     @Override
-    public TaskList create(Long id, String title, String position) {
-        TaskList taskList = new TaskList(id, title, position);
+    public TaskList create(String title, String position) {
+        TaskList taskList = new TaskList(title, position);
 
         return repository.save(taskList);
 

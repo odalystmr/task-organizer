@@ -44,8 +44,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(Long id, String title, String description, String position, boolean complete, User assignee) {
-        this.id = id;
+    public Task(String title, String description, String position, boolean complete, User assignee) {
         this.title = title;
         this.description = description;
         this.position = position;
@@ -53,8 +52,7 @@ public class Task {
         this.assignee = assignee;
     }
 
-    public Task(Long id, String title, String description, String position, boolean complete) {
-        this.id = id;
+    public Task( String title, String description, String position, boolean complete) {
         this.title = title;
         this.description = description;
         this.position = position;
