@@ -30,7 +30,10 @@ public class ProjectService implements IProjectService {
 
     @Override
     public Project create(String title, String description) {
-        Project project = new Project(title, description);
+        User owner = userService.getUserLoggedIn();
+
+        Project project = new Project(title, description, owner);
+
         return repository.save(project);
     }
 
