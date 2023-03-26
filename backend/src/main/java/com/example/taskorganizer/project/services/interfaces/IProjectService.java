@@ -16,4 +16,6 @@ public interface IProjectService {
     public void deleteById(Long id);
 
     public void deleteAll(Long idOwner);
+
+    void addParticipants(Long id, List<Long> participantIds);
 }

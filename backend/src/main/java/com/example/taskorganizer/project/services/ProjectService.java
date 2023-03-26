@@ -3,6 +3,8 @@ package com.example.taskorganizer.project.services;
 import com.example.taskorganizer.project.models.Project;
 import com.example.taskorganizer.project.repositories.ProjectRepository;
 import com.example.taskorganizer.project.services.interfaces.IProjectService;
+import com.example.taskorganizer.user.models.User;
+import com.example.taskorganizer.user.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ public class ProjectService implements IProjectService {
 
     @Autowired
     private ProjectRepository repository;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public List<Project> findAll() {
@@ -48,5 +52,20 @@ public class ProjectService implements IProjectService {
     @Override
     public void deleteAll(Long idOwner) {
 //    projectRepository.deleteAll();
+    }
+
+    public void addParticipants(Long projectId, List<Long> newParticipants) {
+        Project project = findById(projectId);
+        List<User> projectParticipants = project.getParticipants();
+
+        for (Long participant : newParticipants) {
+            User user = userService.findById(participant);
+            projectParticipants.add(user);
+
+        }
+
+        project.setParticipants(projectParticipants);
+
+        repository.save(project);
     }
 }

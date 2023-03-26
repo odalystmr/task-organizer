@@ -1,6 +1,7 @@
 package com.example.taskorganizer.project.controllers;
 
 import com.example.taskorganizer.project.models.Project;
+import com.example.taskorganizer.project.requests.AddProjectParticipantsPostRequest;
 import com.example.taskorganizer.project.requests.ProjectsPostRequest;
 import com.example.taskorganizer.project.requests.ProjectsPutRequest;
 import com.example.taskorganizer.project.services.interfaces.IProjectService;
@@ -49,4 +50,10 @@ public class ProjectController {
         service.deleteById(id);
     }
 
+    @PostMapping("/{id}/participants")
+    public void addParticipants(@PathVariable("id") Long id, @RequestBody AddProjectParticipantsPostRequest requestBody){
+        service.addParticipants(
+                id,
+                requestBody.getParticipantIds());
+    }
 }
