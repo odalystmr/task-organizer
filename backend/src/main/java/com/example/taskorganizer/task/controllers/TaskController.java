@@ -30,7 +30,8 @@ public class TaskController {
                 requestBody.getTitle(),
                 requestBody.getDescription(),
                 requestBody.getPosition(),
-                requestBody.isComplete());
+                requestBody.isComplete(),
+                requestBody.getAssigneeId());
 
         return ResponseEntity.ok(task);
     }
@@ -42,7 +43,8 @@ public class TaskController {
                 requestBody.getTitle(),
                 requestBody.getDescription(),
                 requestBody.getPosition(),
-                requestBody.isComplete());
+                requestBody.isComplete(),
+                requestBody.getAssigneeId());
 
         return ResponseEntity.ok(task);
     }

@@ -12,7 +12,7 @@ public interface ITaskService {
 
     public Task create(String title, String description, String position, boolean complete, Long assignee);
 
-    public Task update(Long id, String title, String description, String position, boolean complete );
+    public Task update(Long id, String title, String description, String position, boolean complete, Long assignee);
 
     public void deleteById(Long id);
 

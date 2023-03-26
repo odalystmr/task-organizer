@@ -9,6 +9,7 @@ public class TasksPostRequest {
         return title;
     }
 
+    private Long assigneeId;
     public String getDescription() {
         return description;
     }
@@ -19,5 +20,9 @@ public class TasksPostRequest {
 
     public boolean isComplete() {
         return complete;
+    }
+
+    public Long getAssigneeId() {
+        return assigneeId;
     }
 }
