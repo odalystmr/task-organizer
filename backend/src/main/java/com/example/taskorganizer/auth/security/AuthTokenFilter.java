@@ -1,5 +1,6 @@
 package com.example.taskorganizer.auth.security;
 
+import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
 import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.user.models.User;
 import jakarta.servlet.FilterChain;
@@ -33,21 +34,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String token = getTokenFromRequest(request);
 
         if (StringUtils.hasText(token)) {
-            User user = service.getUserByToken(token);
+            try {
+                User user = service.getUserByToken(token);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+                UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
 
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } catch (UserNotFoundException ignored) {
+            }
         }
-
 
         filterChain.doFilter(request, response);
     }

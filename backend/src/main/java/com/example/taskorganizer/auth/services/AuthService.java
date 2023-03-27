@@ -1,5 +1,6 @@
 package com.example.taskorganizer.auth.services;
 
+import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
 import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.user.models.User;
 import com.example.taskorganizer.user.repositories.UserRepository;
@@ -17,7 +18,7 @@ public class AuthService implements IAuthService {
     public String assignToken(String username) {
         User user = userRepository.findByUsername(username);
 
-        if(user.getToken()!=null){
+        if (user.getToken() != null) {
             return user.getToken();
         }
 
@@ -33,15 +34,13 @@ public class AuthService implements IAuthService {
 
     }
 
-    public User getUserByToken(String token) {
-        return userRepository.findByToken(token);
-    }
+    public User getUserByToken(String token) throws UserNotFoundException {
+        User user = userRepository.findByToken(token);
 
-    public boolean verifyUserByToken(String token){
-       return getUserByToken(token)!=null;
-    }
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
 
-    private boolean verifyPassword(User user, String password){
-        return user.getPassword().equals(password);
+        return user;
     }
 }
