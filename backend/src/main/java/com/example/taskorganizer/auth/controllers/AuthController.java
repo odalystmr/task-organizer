@@ -1,6 +1,8 @@
 package com.example.taskorganizer.auth.controllers;
 
+import com.example.taskorganizer.auth.exceptions.EmailAlreadyExistsException;
 import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
+import com.example.taskorganizer.auth.exceptions.UsernameAlreadyExistsException;
 import com.example.taskorganizer.auth.requests.LoginPostRequest;
 import com.example.taskorganizer.auth.requests.RegisterPostRequest;
 import com.example.taskorganizer.auth.responses.GetUserProfileResponse;
@@ -11,11 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,64 +20,36 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
 
     @Autowired
     private IAuthService service;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody LoginPostRequest requestBody) {
-//        System.out.println( requestBody.getUsername() + requestBody.getPassword());
-//        try {
-//            String token = service.login(
-//                    requestBody.getUsername(),
-//                    requestBody.getPassword());
-//
-//            return ResponseEntity.ok(token);
-//        } catch (InvalidPasswordException e) {
-//            return new ResponseEntity<>("invalid password", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
-
-
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginPostRequest requestBody) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        requestBody.getUsername(),
-                        requestBody.getPassword()
-                )
-        );
-        String token = service.assignToken(requestBody.getUsername());
+        try {
+            String token = service.login(requestBody.getUsername(), requestBody.getPassword());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>("Credenciales incorrectas", HttpStatus.UNAUTHORIZED);
+        }
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterPostRequest requestBody) {
-
-        if (userRepository.existsByUsername(requestBody.getUsername())) {
-            return new ResponseEntity<>("El nombre de usuario ya esta en uso.", HttpStatus.BAD_REQUEST);
+        try {
+            service.register(requestBody.getFullName(), requestBody.getUsername(), requestBody.getEmail(), requestBody.getPassword());
+        } catch (UsernameAlreadyExistsException e) {
+            return new ResponseEntity<>("Nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
+        } catch (EmailAlreadyExistsException e) {
+            return new ResponseEntity<>("Email ya existe", HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepository.existsByEmail(requestBody.getEmail())) {
-            return new ResponseEntity<>("El email ya esta en uso.", HttpStatus.BAD_REQUEST);
-        }
-
-        User user = new User();
-        user.setFullName(requestBody.getFullName());
-        user.setUsername(requestBody.getUsername());
-        user.setEmail(requestBody.getEmail());
-        user.setPassword(passwordEncoder.encode(requestBody.getPassword()));
-
-        userRepository.save(user);
-
-        return new ResponseEntity<>("Usuario registrado correctamente.", HttpStatus.OK);
+        return new ResponseEntity<>("Usuario registrado correctamente", HttpStatus.OK);
     }
 
     @GetMapping("/me")
