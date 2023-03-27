@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class UserService implements IUserService {
 
-    //    Importar el repositorio
     @Autowired
     private UserRepository repository;
 
@@ -43,6 +42,11 @@ public class UserService implements IUserService {
 
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    public User getUserLoggedIn(){
+        User user = findById(1L);
+        return user;
     }
 
     public User getUserByUsername(String username){
