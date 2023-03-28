@@ -8,11 +8,14 @@ import com.example.taskorganizer.auth.requests.RegisterPostRequest;
 import com.example.taskorganizer.auth.responses.GetUserProfileResponse;
 import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.user.models.User;
-import com.example.taskorganizer.user.repositories.UserRepository;
+import com.example.taskorganizer.user.services.interfaces.IUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +23,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-
+    private IAuthService authService;
     @Autowired
-    private IAuthService service;
+    private IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginPostRequest requestBody) {
+    public ResponseEntity<String> login(@RequestBody LoginPostRequest requestBody) {
         try {
-            String token = service.login(requestBody.getUsername(), requestBody.getPassword());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(requestBody.getUsername(), requestBody.getPassword())
+            );
+
+            String token = authService.assignToken(requestBody.getUsername());
+
+            authService.getSecurityContext().setAuthentication(authentication);
 
             return new ResponseEntity<>(token, HttpStatus.OK);
         } catch (UserNotFoundException e) {
@@ -40,9 +49,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterPostRequest requestBody) {
+    public ResponseEntity<?> register(@RequestBody RegisterPostRequest requestBody) {
         try {
-            service.register(requestBody.getFullName(), requestBody.getUsername(), requestBody.getEmail(), requestBody.getPassword());
+            authService.register(requestBody.getFullName(), requestBody.getUsername(), requestBody.getEmail(), requestBody.getPassword());
         } catch (UsernameAlreadyExistsException e) {
             return new ResponseEntity<>("Nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
         } catch (EmailAlreadyExistsException e) {
@@ -63,7 +72,7 @@ public class AuthController {
         String token = bearerToken.substring(7);
 
         try {
-            User user = service.getUserByToken(token);
+            User user = userService.getUserByToken(token);
 
             return new GetUserProfileResponse(user);
         } catch (UserNotFoundException e) {

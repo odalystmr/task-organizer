@@ -4,6 +4,7 @@ import com.example.taskorganizer.auth.exceptions.EmailAlreadyExistsException;
 import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
 import com.example.taskorganizer.auth.exceptions.UsernameAlreadyExistsException;
 import com.example.taskorganizer.user.models.User;
+import org.springframework.security.core.context.SecurityContext;
 
 public interface IAuthService {
 
@@ -11,9 +12,9 @@ public interface IAuthService {
 
     void logout(String username);
 
-    User getUserByToken(String token) throws UserNotFoundException;
-
     void register(String fullName, String username, String email, String password) throws UsernameAlreadyExistsException, EmailAlreadyExistsException;
 
-    String login(String username, String password) throws UserNotFoundException;
+    SecurityContext getSecurityContext();
+
+    User getUserLoggedIn();
 }

@@ -18,6 +18,7 @@ public class ProjectController {
 
     @GetMapping("")
     public ResponseEntity<?> findAll() {
+
         return ResponseEntity.ok(service.findAll());
     }
 
@@ -51,7 +52,7 @@ public class ProjectController {
     }
 
     @PostMapping("/{id}/participants")
-    public void addParticipants(@PathVariable("id") Long id, @RequestBody AddProjectParticipantsPostRequest requestBody){
+    public void addParticipants(@PathVariable("id") Long id, @RequestBody AddProjectParticipantsPostRequest requestBody) {
         service.addParticipants(
                 id,
                 requestBody.getParticipantUsernames());

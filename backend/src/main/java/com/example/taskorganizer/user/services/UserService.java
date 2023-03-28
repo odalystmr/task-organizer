@@ -1,5 +1,6 @@
 package com.example.taskorganizer.user.services;
 
+import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
 import com.example.taskorganizer.user.models.User;
 import com.example.taskorganizer.user.repositories.UserRepository;
 import com.example.taskorganizer.user.services.interfaces.IUserService;
@@ -44,12 +45,18 @@ public class UserService implements IUserService {
         repository.deleteById(id);
     }
 
-    public User getUserLoggedIn(){
-        User user = findById(1L);
-        return user;
-    }
 
     public User getUserByUsername(String username){
         return repository.findByUsername(username);
+    }
+
+    public User getUserByToken(String token) throws UserNotFoundException {
+        User user = repository.findByToken(token);
+
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        return user;
     }
 }

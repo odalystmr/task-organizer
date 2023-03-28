@@ -19,7 +19,7 @@ public class Project {
     @Column(name = "description")
     private String description;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"projects", "tasks", "comments"})
     private User owner;

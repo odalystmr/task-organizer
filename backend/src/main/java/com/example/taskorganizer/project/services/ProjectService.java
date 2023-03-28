@@ -1,5 +1,6 @@
 package com.example.taskorganizer.project.services;
 
+import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.project.models.Project;
 import com.example.taskorganizer.project.repositories.ProjectRepository;
 import com.example.taskorganizer.project.services.interfaces.IProjectService;
@@ -8,6 +9,7 @@ import com.example.taskorganizer.user.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,10 +19,14 @@ public class ProjectService implements IProjectService {
     private ProjectRepository repository;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IAuthService authService;
 
     @Override
     public List<Project> findAll() {
-        return repository.findAll();
+        User participant = authService.getUserLoggedIn();
+
+        return repository.findProjectsByParticipant(participant.getId());
     }
 
     @Override
@@ -30,7 +36,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public Project create(String title, String description) {
-        User owner = userService.getUserLoggedIn();
+        User owner = authService.getUserLoggedIn();
 
         Project project = new Project(title, description, owner);
 
@@ -64,11 +70,9 @@ public class ProjectService implements IProjectService {
         for (String username : newParticipantUsernames) {
             User user = userService.getUserByUsername(username);
             projectParticipants.add(user);
-
         }
 
         project.setParticipants(projectParticipants);
-
         repository.save(project);
     }
 }

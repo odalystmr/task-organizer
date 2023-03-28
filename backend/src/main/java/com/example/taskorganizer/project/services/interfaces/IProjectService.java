@@ -5,17 +5,17 @@ import com.example.taskorganizer.project.models.Project;
 import java.util.List;
 
 public interface IProjectService {
-    public List<Project> findAll();
+    List<Project> findAll();
 
-    public Project findById(Long id);
+    Project findById(Long id);
 
-    public Project create(String title, String description);
+    Project create(String title, String description);
 
-    public Project update(Long id, String title, String description);
+    Project update(Long id, String title, String description);
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public void deleteAll(Long idOwner);
+    void deleteAll(Long idOwner);
 
     void addParticipants(Long id, List<String> newParticipantUsernames);
 }

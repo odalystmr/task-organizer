@@ -7,10 +7,9 @@ import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.user.models.User;
 import com.example.taskorganizer.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,7 @@ public class AuthService implements IAuthService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
 
     @Override
     public String assignToken(String username) throws UserNotFoundException {
@@ -49,15 +47,6 @@ public class AuthService implements IAuthService {
 
     }
 
-    public User getUserByToken(String token) throws UserNotFoundException {
-        User user = userRepository.findByToken(token);
-
-        if (user == null) {
-            throw new UserNotFoundException();
-        }
-
-        return user;
-    }
 
     @Override
     public void register(String fullName, String username, String email, String password) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
@@ -75,15 +64,19 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public String login(String username, String password) throws UserNotFoundException {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        );
-
-        String token = assignToken(username);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return token;
+    public SecurityContext getSecurityContext() {
+        return SecurityContextHolder.getContext();
     }
+
+    public User getUserLoggedIn() {
+        Object principal = getSecurityContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return userRepository.findByUsername(username);
+        }
+
+        return null;
+    }
+
 }

@@ -3,12 +3,12 @@ package com.example.taskorganizer.auth.security;
 import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
 import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.user.models.User;
+import com.example.taskorganizer.user.services.interfaces.IUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -21,12 +21,14 @@ import java.io.IOException;
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private IAuthService service;
+    private IUserService userService;
     private UserDetailsService userDetailsService;
+    private IAuthService authService;
 
-    public AuthTokenFilter(IAuthService service, UserDetailsService userDetailsService) {
-        this.service = service;
+    public AuthTokenFilter(IUserService userService, UserDetailsService userDetailsService, IAuthService authService) {
+        this.userService = userService;
         this.userDetailsService = userDetailsService;
+        this.authService = authService;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(token)) {
             try {
-                User user = service.getUserByToken(token);
+                User user = userService.getUserByToken(token);
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 
@@ -47,7 +49,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                authService.getSecurityContext().setAuthentication(authenticationToken);
+
             } catch (UserNotFoundException ignored) {
             }
         }
