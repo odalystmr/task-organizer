@@ -1,0 +1,39 @@
+<!--  <h2 [align]="'left'">Detalle del proyecto</h2>-->
+  <mat-card [style]="'padding:2%'">
+
+<!--    <mat-card-title>-->
+<!--      <h1 [align]="'center'"><b>{{project.title}}</b></h1>-->
+<!--      <mat-card-subtitle >-->
+<!--        <h3 [align]="'center'">{{project.description}}</h3>-->
+<!--      </mat-card-subtitle>-->
+<!--      <mat-divider></mat-divider>-->
+<!--    </mat-card-title>-->
+
+    <mat-card-content>
+      <h2>Participantes</h2>
+      <mat-list *ngFor="let participant of project.participants">
+        <mat-list-item [style]="'height:5%;'">
+          <div *ngIf="participant.id !== project.owner!.id; else ownerUsername">
+            <mat-icon [style]="'height:20px'">person</mat-icon> Username: {{participant.username}} <br>
+          </div>
+          <ng-template #ownerUsername>
+            <mat-icon [style]="'height:20px'">manage_accounts</mat-icon> Username: {{participant.username}} <br>
+          </ng-template>
+
+          <mat-icon [style]="'height:20px'">mail</mat-icon> Email: {{participant.email}}
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+    <mat-card-footer [style]="'padding-top:2%'">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+        <button mat-stroked-button color="primary" (click)="openDialogAddParticipants()">Añadir participantes</button>
+        </div>
+        <div>
+        <button mat-stroked-button color="primary" routerLink="/project/{{project.id}}">Entrar al proyecto</button>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+

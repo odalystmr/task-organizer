@@ -1,0 +1,34 @@
+<mat-sidenav-container fullscreen>
+
+  <mat-sidenav-content>
+
+    <mat-toolbar color="primary">
+
+      <button mat-icon-button routerLink="/">
+        <mat-icon>list</mat-icon>
+      </button>
+
+      <span class="spacer"></span>
+
+      <div [style]="'margin-right:2%'">
+      ¡Bienvenido,
+        <button mat-icon-button routerLink="/profile">
+        {{name}}!
+        </button>
+      </div>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button (click)="logOut()">
+        <mat-icon matTooltip="Cerrar sesión" >logout</mat-icon>
+      </button>
+
+    </mat-toolbar>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

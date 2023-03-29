@@ -1,0 +1,18 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.container {
+    margin: 40px;
+}
+
+.sidenav-toolbar {
+    min-width: 180px;
+    cursor: pointer;
+}
+
+.sidenav-nav-list mat-list-item {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}

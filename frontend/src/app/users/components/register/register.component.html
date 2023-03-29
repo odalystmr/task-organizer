@@ -1,0 +1,44 @@
+<mat-card [style]="'margin:5%;padding:3%'">
+  <mat-card-title fxLayoutAlign="center">
+<h1>
+  Registrar usuario
+  <small>{{user.username}}</small>
+</h1>
+  </mat-card-title>
+  <mat-card-content fxLayout="row" fxLayoutGap="24px" fxLayout.xs="column" fxLayoutAlign="center">
+  <div fxFlex="50" fxLayout="column" >
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" [(ngModel)]="user.fullName" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Nombre del usuario</mat-label>
+      <input matInput type="text" [(ngModel)]="user.username" required>
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="user.email" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="user.password" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Confirmar contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="user.confirmPassword" required>
+    </mat-form-field>
+  </div>
+
+  </mat-card-content>
+
+  <mat-card-footer  fxLayoutAlign="center">
+      <button mat-stroked-button (click)="save()">
+        Registrar
+      </button>
+  </mat-card-footer>
+</mat-card>

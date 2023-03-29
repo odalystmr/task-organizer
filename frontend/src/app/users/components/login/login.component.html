@@ -1,0 +1,39 @@
+<mat-card [style]="'margin:5%;padding:3%'">
+  <mat-card-title fxLayoutAlign="center">
+    <h1>Iniciar sesión</h1>
+  </mat-card-title>
+  <mat-card-content fxLayout="row" fxLayoutGap="24px" fxLayout.xs="column" fxLayoutAlign="center">
+    <div fxFlex="50" fxLayout="column">
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="24px">
+        <mat-form-field fxFlex="100" fxLayout.xs="column">
+          <mat-label>Nombre de usuario</mat-label>
+          <input matInput type="text" [(ngModel)]="user.username" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" fxLayout.xs="column">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" [(ngModel)]="user.password" required>
+        </mat-form-field>
+      </div>
+
+      <div fxLayoutAlign="end">
+        <button mat-stroked-button (click)="login()">
+          Inicia sesión
+        </button>
+      </div>
+
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer fxLayout="row" fxLayoutGap="24px" fxLayout.xs="column" fxLayoutAlign="center">
+    <div fxFlex="50" fxLayout="column">
+
+      <div>
+        <h3>¿No tienes cuenta?</h3>
+        <button mat-button [routerLink]="['/register']">Registrate</button>
+      </div>
+
+    </div>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,16 @@
+mat-card {
+  padding:1%;
+  margin:2%;
+}
+
+mat-card-title{
+  padding:2%;
+}
+
+mat-card-content{
+  padding:2%;
+}
+
+mat-card-footer{
+  padding:2%;
+}

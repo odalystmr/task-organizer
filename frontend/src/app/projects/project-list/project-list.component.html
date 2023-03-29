@@ -1,0 +1,31 @@
+<h1 [align]="'center'">Tus proyectos</h1>
+<mat-card [style]="'padding:2%'">
+  <mat-card-title>
+
+  </mat-card-title>
+  <mat-card-content>
+
+    <mat-accordion *ngFor="let project of projects">
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header [style]="'font-size:large'">
+          <mat-panel-title>
+            {{project.title}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{project.description}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-project-details [project]="project"></app-project-details>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </mat-card-content>
+  <mat-card-footer>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <div>
+        <button mat-stroked-button color="primary" (click)="createProject()">Crear nuevo proyecto</button>
+      </div>
+    </div>
+  </mat-card-footer>
+</mat-card>

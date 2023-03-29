@@ -1,0 +1,43 @@
+<mat-card [style]="'padding:2%'">
+  <mat-card-title>
+    <h1 [align]="'center'">
+      Añadir participantes al proyecto: <b> {{dataProject.title}}</b>
+    </h1>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content fxLayoutAlign="center" fxLayout="column">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Nombre de usuario:</mat-label>
+      <input type="text"
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onSelectionChange)="onSelectParticipant($event)">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+
+    </mat-form-field>
+
+    <mat-list *ngFor="let participant of selectedParticipants">
+      <mat-list-item [style]="'height:5%;'">
+        {{participant}}
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-footer>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-stroked-button (click)="addParticipants()">Añadir participantes</button>
+      <button mat-stroked-button (click)="close()" color="warn">Cancelar</button>
+    </div>
+  </mat-card-footer>
+
+</mat-card>
+
+
+
+
+
