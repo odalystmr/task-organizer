@@ -4,7 +4,9 @@ import com.example.taskorganizer.auth.services.interfaces.IAuthService;
 import com.example.taskorganizer.project.models.Project;
 import com.example.taskorganizer.project.repositories.ProjectRepository;
 import com.example.taskorganizer.project.services.interfaces.IProjectService;
+import com.example.taskorganizer.taskList.services.interfaces.ITaskListService;
 import com.example.taskorganizer.user.models.User;
+import com.example.taskorganizer.user.repositories.UserRepository;
 import com.example.taskorganizer.user.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,9 @@ public class ProjectService implements IProjectService {
     @Autowired
     private ProjectRepository repository;
     @Autowired
-    private IUserService userService;
+    private UserRepository userRepository;
+    @Autowired
+    private ITaskListService taskListService;
     @Autowired
     private IAuthService authService;
 
@@ -40,6 +44,11 @@ public class ProjectService implements IProjectService {
 
         Project project = new Project(title, description, owner);
 
+        List<User> participants=  new ArrayList<>();
+        participants.add(owner);
+        project.setParticipants(participants);
+
+
         return repository.save(project);
     }
 
@@ -55,12 +64,15 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void deleteById(Long id) {
+        taskListService.deleteByProjectId(id);
+        repository.deleteAllParticipantsByProjectId(id);
         repository.deleteById(id);
     }
 
-    @Override
-    public void deleteAll(Long idOwner) {
-//    projectRepository.deleteAll();
+    public void deleteByUserId(Long id) {
+        repository.deleteParticipantsByUserId(id);
+        List<Project> projects = repository.findProjectsByOwnerId(id);
+        projects.forEach(project -> deleteById(project.getId()));
     }
 
     public void addParticipants(Long projectId, List<String> newParticipantUsernames) {
@@ -68,7 +80,7 @@ public class ProjectService implements IProjectService {
         List<User> projectParticipants = project.getParticipants();
 
         for (String username : newParticipantUsernames) {
-            User user = userService.getUserByUsername(username);
+            User user = userRepository.findByUsername(username);
             projectParticipants.add(user);
         }
 

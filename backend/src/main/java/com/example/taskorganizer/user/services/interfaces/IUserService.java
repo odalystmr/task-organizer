@@ -13,7 +13,7 @@ public interface IUserService {
 
     User create(String full_name, String username, String email, String password);
 
-    User update(Long id, String full_name, String username, String email, String password);
+    User update(Long id, String full_name, String username, String email);
 
     void delete(Long id);
 

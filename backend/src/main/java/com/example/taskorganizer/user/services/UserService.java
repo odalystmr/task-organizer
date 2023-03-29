@@ -1,6 +1,7 @@
 package com.example.taskorganizer.user.services;
 
 import com.example.taskorganizer.auth.exceptions.UserNotFoundException;
+import com.example.taskorganizer.project.services.ProjectService;
 import com.example.taskorganizer.user.models.User;
 import com.example.taskorganizer.user.repositories.UserRepository;
 import com.example.taskorganizer.user.services.interfaces.IUserService;
@@ -14,6 +15,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ProjectService projectService;
 
 
     public List<User> findAll() {
@@ -30,18 +34,18 @@ public class UserService implements IUserService {
         return repository.save(user);
     }
 
-    public User update(Long id, String fullName, String username, String email, String password) {
+    public User update(Long id, String fullName, String username, String email) {
         User user = findById(id);
 
         user.setFullName(fullName);
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(password);
 
         return repository.save(user);
     }
 
     public void delete(Long id) {
+        projectService.deleteByUserId(id);
         repository.deleteById(id);
     }
 

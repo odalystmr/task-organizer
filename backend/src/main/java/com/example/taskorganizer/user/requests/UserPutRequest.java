@@ -1,16 +1,9 @@
 package com.example.taskorganizer.user.requests;
 
 public class UserPutRequest {
-
-    private Long id;
     private String fullName;
     private String username;
     private String email;
-    private String password;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getFullName() {
         return fullName;
@@ -22,9 +15,5 @@ public class UserPutRequest {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

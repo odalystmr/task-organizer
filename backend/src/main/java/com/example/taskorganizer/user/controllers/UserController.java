@@ -39,12 +39,12 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody UserPutRequest requestBody) {
+        System.out.println(requestBody);
         User user = service.update(
                 id,
                 requestBody.getFullName(),
                 requestBody.getUsername(),
-                requestBody.getEmail(),
-                requestBody.getPassword()
+                requestBody.getEmail()
         );
 
         return ResponseEntity.ok(user);

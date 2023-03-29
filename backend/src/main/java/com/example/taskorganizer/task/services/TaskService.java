@@ -1,10 +1,13 @@
 package com.example.taskorganizer.task.services;
 
+import com.example.taskorganizer.comment.services.interfaces.ICommentService;
 import com.example.taskorganizer.task.models.Task;
 import com.example.taskorganizer.task.repositories.TaskRepository;
 import com.example.taskorganizer.task.services.interfaces.ITaskService;
+import com.example.taskorganizer.taskList.models.TaskList;
+import com.example.taskorganizer.taskList.repositories.TaskListRepository;
 import com.example.taskorganizer.user.models.User;
-import com.example.taskorganizer.user.services.interfaces.IUserService;
+import com.example.taskorganizer.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +19,14 @@ public class TaskService implements ITaskService {
     @Autowired
     private TaskRepository repository;
     @Autowired
-    private IUserService userService;
+    private UserRepository userRepository;
+    @Autowired
+    private ICommentService commentService;
+    @Autowired
+    private TaskListRepository taskListRepository;
 
-    @Override
-    public List<Task> findAll() {
-        return repository.findAll();
+    public List<Task> findAllByTaskListId(Long taskListId) {
+        return repository.findAllByTaskListId(taskListId);
     }
 
     @Override
@@ -29,17 +35,19 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public Task create(String title, String description, String position, boolean complete, Long assigneeId) {
-        User assignee = userService.findById(assigneeId);
-
+    public Task create(String title, String description, String position, boolean complete, Long assigneeId, Long taskListId) {
+        User assignee = userRepository.findById(assigneeId).orElseThrow();
+        TaskList taskList = taskListRepository.findById(taskListId).orElseThrow();
         Task task = new Task(title, description, position, complete, assignee);
+        task.setTaskList(taskList);
+
 
         return repository.save(task);
     }
 
     @Override
     public Task update(Long id, String title, String description, String position, boolean complete, Long assigneeId) {
-        User assignee = userService.findById(assigneeId);
+        User assignee = userRepository.findById(assigneeId).orElseThrow();
         Task task = findById(id);
 
         task.setTitle(title);
@@ -53,11 +61,15 @@ public class TaskService implements ITaskService {
 
     @Override
     public void deleteById(Long id) {
+        commentService.deleteByTaskId(id);
         repository.deleteById(id);
     }
 
     @Override
-    public void deleteAll(Long idTaskList) {
-
+    public void deleteByTaskListId(Long id) {
+        List<Task> tasks = findAllByTaskListId(id);
+        for (Task task : tasks) {
+            deleteById(task.getId());
+        }
     }
 }

@@ -5,11 +5,11 @@ public class TasksPostRequest {
     private String description;
     private String position;
     private boolean complete;
+    private Long assigneeId;
+
     public String getTitle() {
         return title;
     }
-
-    private Long assigneeId;
     public String getDescription() {
         return description;
     }

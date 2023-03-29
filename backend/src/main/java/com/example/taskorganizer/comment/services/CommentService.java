@@ -46,7 +46,7 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void deleteAll(Long idTask) {
-
+    public void deleteByTaskId(Long taskId) {
+        repository.deleteAllByTaskId(taskId);
     }
 }

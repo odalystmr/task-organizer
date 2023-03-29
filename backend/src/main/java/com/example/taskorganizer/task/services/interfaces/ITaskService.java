@@ -6,17 +6,15 @@ import java.util.List;
 
 public interface ITaskService {
 
-    public List<Task> findAll();
+    List<Task> findAllByTaskListId(Long taskListId);
 
-    public Task findById(Long id);
+    Task findById(Long id);
 
-    public Task create(String title, String description, String position, boolean complete, Long assignee);
+    Task create(String title, String description, String position, boolean complete, Long assignee, Long taskListId);
 
-    public Task update(Long id, String title, String description, String position, boolean complete, Long assignee);
+    Task update(Long id, String title, String description, String position, boolean complete, Long assignee);
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public void deleteAll(Long idTaskList);
-
-
+    void deleteByTaskListId(Long id);
 }

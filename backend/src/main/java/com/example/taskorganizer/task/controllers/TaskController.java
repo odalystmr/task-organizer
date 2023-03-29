@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/projects/{projectId}/task-lists/{taskListId}/tasks")
 public class TaskController {
     @Autowired
     private ITaskService service;
 
     @GetMapping("")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<?> findAll(@PathVariable("taskListId") Long taskListId) {
+        return ResponseEntity.ok(service.findAllByTaskListId(taskListId));
     }
 
     @GetMapping("/{id}")
@@ -25,13 +25,15 @@ public class TaskController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> add(@RequestBody TasksPostRequest requestBody) {
+    public ResponseEntity<?> add(@PathVariable("taskListId") Long taskListId,@RequestBody TasksPostRequest requestBody) {
+
         Task task = service.create(
                 requestBody.getTitle(),
                 requestBody.getDescription(),
                 requestBody.getPosition(),
                 requestBody.isComplete(),
-                requestBody.getAssigneeId());
+                requestBody.getAssigneeId(),
+                taskListId);
 
         return ResponseEntity.ok(task);
     }

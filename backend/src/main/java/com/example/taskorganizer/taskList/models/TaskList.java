@@ -27,7 +27,7 @@ public class TaskList {
     private Project project;
 
     @OneToMany(mappedBy = "taskList")
-    @JsonIgnoreProperties({"assignee", "taskList", "comments"})
+    @JsonIgnoreProperties({ "taskList", "comments"})
     private List<Task> tasks;
 
 

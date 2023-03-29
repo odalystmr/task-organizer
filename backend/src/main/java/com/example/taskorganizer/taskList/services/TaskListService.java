@@ -1,5 +1,7 @@
 package com.example.taskorganizer.taskList.services;
 
+import com.example.taskorganizer.project.repositories.ProjectRepository;
+import com.example.taskorganizer.task.services.interfaces.ITaskService;
 import com.example.taskorganizer.taskList.models.TaskList;
 import com.example.taskorganizer.taskList.repositories.TaskListRepository;
 import com.example.taskorganizer.taskList.services.interfaces.ITaskListService;
@@ -7,16 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskListService implements ITaskListService {
     @Autowired
     private TaskListRepository repository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private ITaskService taskService;
 
     @Override
-    public List<TaskList> findAll() {
-        return repository.findAll();
+    public List<TaskList> findAllByProjectId(Long projectId) {
+        return repository.findAllByProjectId(projectId);
 
     }
 
@@ -26,8 +31,10 @@ public class TaskListService implements ITaskListService {
     }
 
     @Override
-    public TaskList create(String title, String position) {
+    public TaskList create(String title, String position, Long projectId) {
         TaskList taskList = new TaskList(title, position);
+
+        taskList.setProject(projectRepository.findById(projectId).orElseThrow());
 
         return repository.save(taskList);
 
@@ -45,11 +52,15 @@ public class TaskListService implements ITaskListService {
 
     @Override
     public void deleteById(Long id) {
+        taskService.deleteByTaskListId(id);
         repository.deleteById(id);
     }
 
     @Override
-    public void deleteAll(Long idProject) {
-
+    public void deleteByProjectId(Long id) {
+        List<TaskList> taskLists = findAllByProjectId(id);
+        for (TaskList taskList : taskLists) {
+            deleteById(taskList.getId());
+        }
     }
 }

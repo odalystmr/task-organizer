@@ -125,7 +125,8 @@ public class User {
     @Override
     public String toString() {
         return "{" +
-                "\"fullName\":\"" + fullName + '\"' +
+                "\"id\":\"" + id + '\"' +
+                ",\"fullName\":\"" + fullName + '\"' +
                 ", \"username\":\"" + username + '\"' +
                 ", \"email\":\"" + email + '\"' +
                 '}';
