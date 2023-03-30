@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {environment} from "../../../environments/environment.development";
 import {Observable} from "rxjs";
-import {TaskList} from "../../interfaces/task-list.interface";
 import {Task} from 'src/app/interfaces/task.interface';
 
 @Injectable({
@@ -26,21 +25,31 @@ export class TaskService {
     });
   }
 
-  createTask(projectId: number, taskListId: number, task:Task): Observable<Task> {
+  createTask(projectId: number, taskListId: number, task: Task): Observable<Task> {
     return this.http.post<Task>(`${this.apiUrl}projects/${projectId}/task-lists/${taskListId}/tasks`, {
       title: task.title,
       description: task.description,
-      position:0,
-      complete:false,
+      position: 0,
+      complete: false,
       assigneeId: task.assignee?.id
     }, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
     });
   }
+
+  editTask(projectId: number, taskListId: number, task: Task): Observable<Task> {
+    return this.http.patch<Task>(`${this.apiUrl}projects/${projectId}/task-lists/${taskListId}/tasks/${task.id}`, {
+      complete: task.complete
+    }, {
+      headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
+    });
+  }
+
   deleteTask(projectId: number, taskListId: number, taskId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}projects/${projectId}/task-lists/${taskListId}/tasks/${taskId}`, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
     });
   }
+
 
 }

@@ -18,6 +18,7 @@ import { ProjectComponent } from './project/project.component';
 import { DialogCreateTaskComponent } from './dialog-create-task.component/dialog-create-task.component';
 import { DialogCreateTaskListComponent } from './dialog-create-task-list.component/dialog-create-task-list.component';
 import { DialogCreateProjectComponent } from './dialog-create-project.component/dialog-create-project.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { DialogCreateProjectComponent } from './dialog-create-project.component/
     FormsModule,
     ReactiveFormsModule,
     MatExpansionModule,
+    MatCheckboxModule,
 
   ]
 })
