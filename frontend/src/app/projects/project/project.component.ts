@@ -20,7 +20,10 @@ export class ProjectComponent implements OnInit {
 
   taskLists: TaskList[] = [];
   tasks: Task[] = [];
-  project!: Project;
+  project: Project={
+    title:'',
+    description:''
+  };
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private dialog: MatDialog, private commonService: CommonService,
               private projectService: ProjectService, private taskListsService: TaskListService, private taskService: TaskService) {
@@ -51,9 +54,10 @@ export class ProjectComponent implements OnInit {
     )
   }
 
+  editTask(taskListId: number, task: Task) {
 
-  editTask(id: number) {
-
+    this.taskService.editTask(this.project.id!, taskListId, task)
+      .subscribe();
   }
 
   deleteTask(taskListId: number, taskId: number) {
@@ -84,7 +88,7 @@ export class ProjectComponent implements OnInit {
   }
 
   editProject() {
-    this.project.id
+    // this.project.id
   }
 
   deleteProject() {

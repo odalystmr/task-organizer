@@ -13,43 +13,43 @@ export class UserService {
   constructor(private http: HttpClient, private cookieService:CookieService) {
   }
 
-  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = environment.apiUrl;
   private getToken(): string {
     return this.cookieService.get('token');
   }
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}users`, {
+    return this.http.get<User[]>(`${this.apiUrl}users`, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
     });
   }
 
   editUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}users/${user.id}`, user, {
+    return this.http.put<User>(`${this.apiUrl}users/${user.id}`, user, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
     });
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}users/${id}`, {
+    return this.http.delete<any>(`${this.apiUrl}users/${id}`, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.getToken()})
     });
   }
 
   getUsersByToken(token: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}auth/me`, {
+    return this.http.get<User>(`${this.apiUrl}auth/me`, {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
     });
   }
 
   postRegister(user: User): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}auth/register`, user, {
+    return this.http.post<User>(`${this.apiUrl}auth/register`, user, {
       responseType: 'text' as 'json',
       headers: new HttpHeaders({'Accept': 'text/plain'})
     });
   }
 
   postLogin(username: string, password: string): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}auth/login`, {username, password}, {
+    return this.http.post<string>(`${this.apiUrl}auth/login`, {username, password}, {
       responseType: 'text' as 'json',
       headers: new HttpHeaders({'Accept': 'text/plain'})
     });
