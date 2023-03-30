@@ -1,6 +1,7 @@
 package com.example.taskorganizer.task.controllers;
 
 import com.example.taskorganizer.task.models.Task;
+import com.example.taskorganizer.task.requests.MarkAsCompletePutRequest;
 import com.example.taskorganizer.task.requests.TasksPostRequest;
 import com.example.taskorganizer.task.requests.TasksPutRequest;
 import com.example.taskorganizer.task.services.interfaces.ITaskService;
@@ -38,15 +39,24 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody TasksPutRequest requestBody) {
-        Task task = service.update(
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody TasksPutRequest requestBody) {
+//        Task task = service.update(
+//                id,
+//                requestBody.getTitle(),
+//                requestBody.getDescription(),
+//                requestBody.getPosition(),
+//                requestBody.isComplete(),
+//                requestBody.getAssigneeId());
+//
+//        return ResponseEntity.ok(task);
+//    }
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> markAsComplete(@PathVariable("id") Long id, @RequestBody MarkAsCompletePutRequest requestBody) {
+        Task task = service.markAsComplete(
                 id,
-                requestBody.getTitle(),
-                requestBody.getDescription(),
-                requestBody.getPosition(),
-                requestBody.isComplete(),
-                requestBody.getAssigneeId());
+                requestBody.isComplete()
+                );
 
         return ResponseEntity.ok(task);
     }

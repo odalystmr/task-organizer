@@ -12,9 +12,10 @@ public interface ITaskService {
 
     Task create(String title, String description, String position, boolean complete, Long assignee, Long taskListId);
 
-    Task update(Long id, String title, String description, String position, boolean complete, Long assignee);
-
     void deleteById(Long id);
 
     void deleteByTaskListId(Long id);
+
+    Task markAsComplete(Long id, boolean complete);
+
 }

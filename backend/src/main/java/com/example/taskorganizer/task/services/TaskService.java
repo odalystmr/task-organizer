@@ -45,16 +45,23 @@ public class TaskService implements ITaskService {
         return repository.save(task);
     }
 
+//    @Override
+//    public Task update(Long id, String title, String description, String position, boolean complete, Long assigneeId) {
+//        User assignee = userRepository.findById(assigneeId).orElseThrow();
+//        Task task = findById(id);
+//
+//        task.setTitle(title);
+//        task.setDescription(description);
+//        task.setPosition(position);
+//        task.setComplete(complete);
+//        task.setAssignee(assignee);
+//
+//        return repository.save(task);
+//    }
     @Override
-    public Task update(Long id, String title, String description, String position, boolean complete, Long assigneeId) {
-        User assignee = userRepository.findById(assigneeId).orElseThrow();
+    public Task markAsComplete(Long id, boolean complete) {
         Task task = findById(id);
-
-        task.setTitle(title);
-        task.setDescription(description);
-        task.setPosition(position);
         task.setComplete(complete);
-        task.setAssignee(assignee);
 
         return repository.save(task);
     }

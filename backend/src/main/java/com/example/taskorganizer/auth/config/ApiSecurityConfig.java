@@ -54,7 +54,7 @@ public class ApiSecurityConfig {
                     CorsConfigurationSource cs = resources -> {
                         CorsConfiguration corsConfiguration = new CorsConfiguration();
                         corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
-                        corsConfiguration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+                        corsConfiguration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH","DELETE", "OPTIONS"));
                         corsConfiguration.setAllowedHeaders(List.of("Authorization",
                                 "Content-Type",
                                 "X-Requested-With",
