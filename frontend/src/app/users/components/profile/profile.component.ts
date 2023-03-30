@@ -62,7 +62,10 @@ export class ProfileComponent implements OnInit {
 
   delete() {
     this.userService.deleteUser(this.user.id!).subscribe({
-      next: () => this.router.navigateByUrl('/login'),
+      next: () => {
+        this.cookieService.delete('token');
+        this.router.navigateByUrl('/login')
+      },
       error: () => this.showSnackBar('No se pudo borrar al usuario')
     })
   }
