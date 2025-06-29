@@ -1,0 +1,53 @@
+services:
+  db:
+    container_name: otmr_task_organizer_db
+    build:
+      context: .
+      dockerfile: etc/db/Dockerfile
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_DATABASE: ${DATABASE_NAME}
+    ports:
+      - '3306:3306'
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    container_name: otmr_task_organizer_app
+    build:
+      context: .
+      dockerfile: etc/app/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+  #    ports:
+  #      - '8080:8080'
+  ui:
+    container_name: otmr_task_organizer_ui
+    build:
+      context: .
+      dockerfile: etc/ui/Dockerfile
+      target: ${APP_ENV}
+    depends_on:
+      app:
+        condition: service_healthy
+#    ports:
+#      - '4200:4200'
+  server:
+    container_name: otmr_task_organizer_server
+    build:
+      context: .
+      dockerfile: etc/server/Dockerfile
+    ports:
+      - '${APP_PORT}:80'
+    depends_on:
+      app:
+        condition: service_healthy
+      ui:
+        condition: service_started
+
+volumes:
+  db:
+    name: otmr_db_disk
+    driver: local
