@@ -53,6 +53,7 @@ public class ApiSecurityConfig {
                 .cors(cors -> {
                     CorsConfigurationSource cs = resources -> {
                         CorsConfiguration corsConfiguration = new CorsConfiguration();
+                        corsConfiguration.setAllowedOrigins(List.of("https://organizer.odalystmr.com"));
                         corsConfiguration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH","DELETE", "OPTIONS"));
                         corsConfiguration.setAllowedHeaders(List.of("Authorization",
                                 "Content-Type",
