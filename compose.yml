@@ -9,8 +9,6 @@ services:
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
       MARIADB_USER: ${DATABASE_USER}
       MARIADB_DATABASE: ${DATABASE_NAME}
-    ports:
-      - '3306:3306'
     volumes:
       - db:/var/lib/mysql
   app:
@@ -21,8 +19,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  #    ports:
-  #      - '8080:8080'
   ui:
     container_name: otmr_task_organizer_ui
     build:
@@ -32,8 +28,6 @@ services:
     depends_on:
       app:
         condition: service_healthy
-#    ports:
-#      - '4200:4200'
   server:
     container_name: otmr_task_organizer_server
     build:
