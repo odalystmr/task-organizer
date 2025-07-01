@@ -25,7 +25,7 @@
       </mat-list>
     </mat-card-content>
 
-    <mat-card-footer [style]="'padding-top:2%'">
+    <mat-card-actions [style]="'padding-top:2%'">
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <div>
         <button mat-stroked-button color="primary" (click)="openDialogAddParticipants()">Añadir participantes</button>
@@ -34,6 +34,6 @@
         <button mat-stroked-button color="primary" routerLink="/project/{{project.id}}">Entrar al proyecto</button>
         </div>
       </div>
-    </mat-card-footer>
+    </mat-card-actions>
   </mat-card>
 

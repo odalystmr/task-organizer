@@ -1,10 +1,13 @@
 <mat-card [style]="'padding:2%'">
-  <mat-card-title>
-    <h1 [align]="'center'">
-      Añadir participantes al proyecto: <b> {{dataProject.title}}</b>
-    </h1>
-    <mat-divider></mat-divider>
-  </mat-card-title>
+
+  <mat-card-header>
+    <mat-card-title>
+      <h1 [align]="'center'">
+        Añadir participantes al proyecto: <b> {{ dataProject.title }}</b>
+      </h1>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+  </mat-card-header>
 
   <mat-card-content fxLayoutAlign="center" fxLayout="column">
     <mat-form-field class="example-full-width" appearance="fill">
@@ -16,7 +19,7 @@
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
                     (onSelectionChange)="onSelectParticipant($event)">
-          {{option}}
+          {{ option }}
         </mat-option>
       </mat-autocomplete>
 
@@ -24,16 +27,17 @@
 
     <mat-list *ngFor="let participant of selectedParticipants">
       <mat-list-item [style]="'height:5%;'">
-        {{participant}}
+        {{ participant }}
       </mat-list-item>
     </mat-list>
   </mat-card-content>
-  <mat-card-footer>
+
+  <mat-card-actions>
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <button mat-stroked-button (click)="addParticipants()">Añadir participantes</button>
       <button mat-stroked-button (click)="close()" color="warn">Cancelar</button>
     </div>
-  </mat-card-footer>
+  </mat-card-actions>
 
 </mat-card>
 

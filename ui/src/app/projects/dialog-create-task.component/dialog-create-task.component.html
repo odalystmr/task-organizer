@@ -1,20 +1,23 @@
 <mat-card>
-  <mat-card-title>
-    <h1>
-    Crear tarea
-    </h1>
-  </mat-card-title>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>
+        Crear tarea
+      </h1>
+    </mat-card-title>
+  </mat-card-header>
+
   <mat-card-content fxLayout="row" fxLayoutGap="24px" fxLayout.xs="column" fxLayoutAlign="center">
 
-      <mat-form-field>
-        <mat-label>Titulo</mat-label>
-        <input matInput type="text" [(ngModel)]="task.title" required>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Titulo</mat-label>
+      <input matInput type="text" [(ngModel)]="task.title" required>
+    </mat-form-field>
 
-      <mat-form-field >
-        <mat-label>Descripción</mat-label>
-        <input matInput type="text" [(ngModel)]="task.description" required>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <input matInput type="text" [(ngModel)]="task.description" required>
+    </mat-form-field>
 
 
     <mat-form-field class="example-full-width" appearance="fill">
@@ -24,8 +27,9 @@
              [formControl]="myControl"
              [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="onSelectAssignee($event)">
-          {{option}}
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onSelectionChange)="onSelectAssignee($event)">
+          {{ option }}
         </mat-option>
       </mat-autocomplete>
 
@@ -33,12 +37,12 @@
 
   </mat-card-content>
 
-  <mat-card-footer  fxLayoutAlign="center">
-    <button mat-stroked-button color="primary" (click)="createTask()" >
+  <mat-card-actions fxLayoutAlign="center">
+    <button mat-stroked-button color="primary" (click)="createTask()">
       Aceptar
     </button>
     <button mat-stroked-button color="warn" (click)="close()">
       Cancelar
     </button>
-  </mat-card-footer>
+  </mat-card-actions>
 </mat-card>
